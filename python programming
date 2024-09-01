@@ -1,0 +1,38 @@
+import random
+
+words = ["apple", "banana", "orange", "grape", "kiwi"]
+
+def choose_word():
+    return random.choice(words)
+
+def display_word(word, guessed):
+    return "".join([c if c in guessed else "_" for c in word])
+
+def play():
+    print("Welcome to the Word Guessing Game!")
+    while True:
+        word = choose_word()
+        attempts = 7
+        guessed = set()
+        print(f"\nAttempts: {attempts}, Word: {display_word(word, guessed)}")
+        while attempts > 0 and "_" in display_word(word, guessed):
+            guess = input("Guess a letter (or type 'exit' to quit): ").lower()
+            if guess == "exit":
+                break
+            elif not guess.isalpha() or len(guess) != 1:
+                print("Enter a single letter!")
+                continue
+            elif guess in guessed:
+                print("Already guessed!")
+                continue
+            guessed.add(guess)
+            if guess not in word:
+                attempts -= 1
+                print("Incorrect!")
+            print(f"\nYou{'won' if attempts else 'lost'}! Word: {word}")
+        if not input("Play again? (y/n): ").lower() == "y":
+           break
+    print("Thanks for playing!")
+	
+if _name_ == "_main_":
+    play()
